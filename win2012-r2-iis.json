@@ -20,7 +20,12 @@
 		{
 			"type" : "windows-shell",
 			"inline" : [
-				"powershell.exe add-windowsfeature web-webserver -includeallsubfeature -logpath $env:temp\\webserver_addrole.log",
+				"powershell.exe add-windowsfeature web-webserver -includeallsubfeature -logpath $env:temp\\webserver_addrole.log"
+			]
+		},
+		{
+			"type" : "windows-shell",
+			"inline" : [				
           		"powershell.exe add-windowsfeature web-mgmt-tools -includeallsubfeature -logpath $env:temp\\mgmttools_addrole.log"
 			]
 		}
