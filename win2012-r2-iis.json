@@ -1,0 +1,30 @@
+{
+	"builders" : [
+		{
+			"type" : "amazon-windows-ebs",
+			"region" : "ap-southeast-2",
+			"source_ami" : "ami-cb3247f1",
+			"instance_type": "m1.small",
+			"ami_name" : "win2012-r2-iis",
+			"user_data_file" : "./ec2-user-data/win2012-r2-iis.ps1",
+			"associate_public_ip_address":true,
+			"winrm_username" : "vagrant",
+			"winrm_password" : "FooBar@123",
+			"winrm_wait_timeout": "10m",
+      		"winrm_port":5985,
+			"access_key" : "XXX",
+			"secret_key" : "XXX"
+		}
+	],
+	"provisioners" : [
+		{
+			"type" : "windows-shell",
+			"inline" : [
+				"powershell.exe add-windowsfeature web-webserver -includeallsubfeature -logpath $env:temp\\webserver_addrole.log",
+          		"powershell.exe add-windowsfeature web-mgmt-tools -includeallsubfeature -logpath $env:temp\\mgmttools_addrole.log"
+			]
+		}
+	]
+}
+
+
