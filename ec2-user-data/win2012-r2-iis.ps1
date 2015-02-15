@@ -23,5 +23,25 @@ cmd.exe /c net stop winrm
 cmd.exe /c sc config winrm start= auto
 cmd.exe /c net start winrm
 cmd.exe /c wmic useraccount where "name='vagrant'" set PasswordExpires=FALSE
+
+# Enable EC2 UserData to execute when an instance is created from the AMI
+$EC2SettingsFile="C:\Program Files\Amazon\Ec2ConfigService\Settings\Config.xml"
+$xml = [xml](get-content $EC2SettingsFile)
+$xmlElement = $xml.get_DocumentElement()
+$xmlElementToModify = $xmlElement.Plugins
+
+foreach ($element in $xmlElementToModify.Plugin)
+{
+    if ($element.name -eq "Ec2SetPassword")
+    {
+        $element.State="Enabled"
+    }
+    elseif ($element.name -eq "Ec2HandleUserData")
+    {
+        $element.State="Enabled"
+    }
+}
+$xml.Save($EC2SettingsFile)
+
  
 </powershell>
